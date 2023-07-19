@@ -47,6 +47,10 @@ while running:
                 color = BLUE
             if event.key == pygame.K_6:
                 color = PURPLE
+            if event.key == pygame.K_LEFTBRACKET:
+                radius -= 2
+            if event.key == pygame.K_RIGHTBRACKET:
+                radius += 2
 
     if MOUSE_PRESSED[0] and MOUSE_SPEED != (0, 0):
         pygame.draw.circle(SCREEN, color, MOUSE, radius)
