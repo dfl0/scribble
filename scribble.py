@@ -5,6 +5,10 @@ pygame.init()
 
 BLACK = (0, 0, 0)
 WHITE = (255, 255, 255)
+RED = (255, 0, 0)
+GREEN = (0, 255, 0)
+BLUE = (0, 0, 255)
+PURPLE = (200, 0, 255)
 
 WINDOW_WIDTH = 800
 WINDOW_HEIGHT = 800
@@ -28,6 +32,21 @@ while running:
     MOUSE_SPEED = pygame.mouse.get_rel()
 
     keys = pygame.key.get_pressed()
+
+    for event in events:
+        if event.type == pygame.KEYDOWN:
+            if event.key == pygame.K_1:
+                color = BLACK
+            if event.key == pygame.K_2:
+                color = WHITE
+            if event.key == pygame.K_3:
+                color = RED
+            if event.key == pygame.K_4:
+                color = GREEN
+            if event.key == pygame.K_5:
+                color = BLUE
+            if event.key == pygame.K_6:
+                color = PURPLE
 
     if MOUSE_PRESSED[0] and MOUSE_SPEED != (0, 0):
         pygame.draw.circle(SCREEN, color, MOUSE, radius)
