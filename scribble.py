@@ -19,8 +19,12 @@ SCREEN.fill(WHITE)
 color = BLACK
 radius = 10
 
+canvas = []
+
 running = True
 while running:
+    SCREEN.fill(WHITE)
+
     events = pygame.event.get()
 
     for event in events:
@@ -32,6 +36,8 @@ while running:
     MOUSE_SPEED = pygame.mouse.get_rel()
 
     keys = pygame.key.get_pressed()
+
+    pygame.draw.circle(SCREEN, (100, 100, 100), MOUSE, radius, 1)
 
     for event in events:
         if event.type == pygame.KEYDOWN:
@@ -53,9 +59,12 @@ while running:
                 radius += 2
 
     if MOUSE_PRESSED[0] and MOUSE_SPEED != (0, 0):
-        pygame.draw.circle(SCREEN, color, MOUSE, radius)
+        canvas.append((color, MOUSE, radius))
     else:
         pass
+
+    for i in range(len(canvas)):
+        pygame.draw.circle(SCREEN, canvas[i][0], canvas[i][1], canvas[i][2])
 
     pygame.display.flip()
 
