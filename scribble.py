@@ -27,6 +27,14 @@ def drawCanvas():
         pygame.draw.circle(SCREEN, canvas[i][0], canvas[i][1], canvas[i][2])
 
 
+def drawCursor():
+    if MOUSE[1] > 50:
+        pygame.draw.circle(SCREEN, (100, 100, 100), MOUSE, radius, 1)
+        pygame.mouse.set_visible(False)
+    else:
+        pygame.mouse.set_visible(True)
+
+
 def drawMenu():
     pygame.draw.rect(SCREEN, (175, 175, 175), [0, 0, WINDOW_WIDTH, 50])
 
@@ -46,12 +54,6 @@ while running:
     MOUSE_SPEED = pygame.mouse.get_rel()
 
     keys = pygame.key.get_pressed()
-
-    if MOUSE[1] > 50:
-        pygame.draw.circle(SCREEN, (100, 100, 100), MOUSE, radius, 1)
-        pygame.mouse.set_visible(False)
-    else:
-        pygame.mouse.set_visible(True)
 
     for event in events:
         if event.type == pygame.KEYDOWN:
@@ -78,6 +80,7 @@ while running:
         pass
 
     drawCanvas()
+    drawCursor()
     drawMenu()
     pygame.display.flip()
 
