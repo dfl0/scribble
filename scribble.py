@@ -21,6 +21,16 @@ radius = 10
 
 canvas = []
 
+
+def drawCanvas():
+    for i in range(len(canvas)):
+        pygame.draw.circle(SCREEN, canvas[i][0], canvas[i][1], canvas[i][2])
+
+
+def drawMenu():
+    pygame.draw.rect(SCREEN, (175, 175, 175), [0, 0, WINDOW_WIDTH, 50])
+
+
 running = True
 while running:
     SCREEN.fill(WHITE)
@@ -37,7 +47,11 @@ while running:
 
     keys = pygame.key.get_pressed()
 
-    pygame.draw.circle(SCREEN, (100, 100, 100), MOUSE, radius, 1)
+    if MOUSE[1] > 50:
+        pygame.draw.circle(SCREEN, (100, 100, 100), MOUSE, radius, 1)
+        pygame.mouse.set_visible(False)
+    else:
+        pygame.mouse.set_visible(True)
 
     for event in events:
         if event.type == pygame.KEYDOWN:
@@ -58,14 +72,13 @@ while running:
             if event.key == pygame.K_RIGHTBRACKET:
                 radius += 2
 
-    if MOUSE_PRESSED[0] and MOUSE_SPEED != (0, 0):
+    if MOUSE_PRESSED[0] and MOUSE_SPEED != (0, 0) and MOUSE[1] > 50:
         canvas.append((color, MOUSE, radius))
     else:
         pass
 
-    for i in range(len(canvas)):
-        pygame.draw.circle(SCREEN, canvas[i][0], canvas[i][1], canvas[i][2])
-
+    drawCanvas()
+    drawMenu()
     pygame.display.flip()
 
 pygame.quit()
