@@ -150,6 +150,8 @@ while running:
                 radius -= 2
             if event.key == pygame.K_RIGHTBRACKET:
                 radius += 2
+            if event.key == pygame.K_c:
+                canvas = []
 
     if MOUSE_PRESSED[0] and MOUSE_SPEED != (0, 0) and MOUSE[1] > 60:
         canvas.append((color, MOUSE, radius))
