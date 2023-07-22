@@ -43,66 +43,89 @@ def drawCursor():
         pygame.mouse.set_visible(True)
 
 
-toolbarItems = []
-
-
 class ToolbarItem:
-    def __init__(self, color, origin, size, isCircle):
+    def __init__(self, color, origin, size, type):
         self.color = color
         self.origin = origin
         self.size = size
-        self.isCircle = isCircle
+        self.type = type
         self.isChosen = False
         self.outlineColor = (100, 100, 100)
         toolbarItems.append(self)
 
     def check(self):
-        if self.isCircle:
+        if self.type == "circle":
             if (
-                math.sqrt(
-                    (MOUSE[0] - self.origin[0]) ** 2 + (MOUSE[1] - self.origin[1]) ** 2
-                )
-                < self.size
+                math.sqrt((MOUSE[0] - self.origin[0]) ** 2 + (MOUSE[1] - self.origin[1]) ** 2) < self.size
                 and MOUSE_PRESSED[0]
             ):
                 for i in toolbarItems:
-                    if i != self and i.isChosen == True:
+                    if i != self and i.type == self.type and i.isChosen == True:
+                        i.isChosen = False
+                self.isChosen = True
+        elif self.type == "rect":
+            if (
+                MOUSE[0] > self.origin[0]
+                and MOUSE[0] < self.origin[0] + self.size[0]
+                and MOUSE[1] > self.origin[1]
+                and MOUSE[1] < self.origin[1] + self.size[1]
+                and MOUSE_PRESSED[0]
+            ):
+                for i in toolbarItems:
+                    if i != self and i.type == self.type and i.isChosen == True:
                         i.isChosen = False
                 self.isChosen = True
 
         if self.isChosen:
             self.outlineColor = WHITE
+
+            if self.type == "rect":
+                self.color = (225, 225, 225)
         else:
             self.outlineColor = (100, 100, 100)
 
+            if self.type == "rect":
+                self.color = (150, 150, 150)
 
-blackPalette = ToolbarItem(BLACK, (WINDOW_WIDTH - 200, 16), 10, True)
-redPalette = ToolbarItem(RED, (WINDOW_WIDTH - 170, 16), 10, True)
-orangePalette = ToolbarItem(ORANGE, (WINDOW_WIDTH - 140, 16), 10, True)
-yellowPalette = ToolbarItem(YELLOW, (WINDOW_WIDTH - 110, 16), 10, True)
-greenPalette = ToolbarItem(GREEN, (WINDOW_WIDTH - 80, 16), 10, True)
-bluePalette = ToolbarItem(BLUE, (WINDOW_WIDTH - 50, 16), 10, True)
-purplePalette = ToolbarItem(PURPLE, (WINDOW_WIDTH - 20, 16), 10, True)
 
-grayPalette = ToolbarItem(GRAY, (WINDOW_WIDTH - 200, 44), 10, True)
-lightredPalette = ToolbarItem(LIGHTRED, (WINDOW_WIDTH - 170, 44), 10, True)
-lightorangePalette = ToolbarItem(LIGHTORANGE, (WINDOW_WIDTH - 140, 44), 10, True)
-lightyellowPalette = ToolbarItem(LIGHTYELLOW, (WINDOW_WIDTH - 110, 44), 10, True)
-lightgreenPalette = ToolbarItem(LIGHTGREEN, (WINDOW_WIDTH - 80, 44), 10, True)
-lightbluePalette = ToolbarItem(LIGHTBLUE, (WINDOW_WIDTH - 50, 44), 10, True)
-lightpurplePalette = ToolbarItem(LIGHTPURPLE, (WINDOW_WIDTH - 20, 44), 10, True)
+toolbarItems = []
+
+blackPalette = ToolbarItem(BLACK, (WINDOW_WIDTH - 200, 16), 10, "circle")
+redPalette = ToolbarItem(RED, (WINDOW_WIDTH - 170, 16), 10, "circle")
+orangePalette = ToolbarItem(ORANGE, (WINDOW_WIDTH - 140, 16), 10, "circle")
+yellowPalette = ToolbarItem(YELLOW, (WINDOW_WIDTH - 110, 16), 10, "circle")
+greenPalette = ToolbarItem(GREEN, (WINDOW_WIDTH - 80, 16), 10, "circle")
+bluePalette = ToolbarItem(BLUE, (WINDOW_WIDTH - 50, 16), 10, "circle")
+purplePalette = ToolbarItem(PURPLE, (WINDOW_WIDTH - 20, 16), 10, "circle")
+
+grayPalette = ToolbarItem(GRAY, (WINDOW_WIDTH - 200, 44), 10, "circle")
+lightredPalette = ToolbarItem(LIGHTRED, (WINDOW_WIDTH - 170, 44), 10, "circle")
+lightorangePalette = ToolbarItem(LIGHTORANGE, (WINDOW_WIDTH - 140, 44), 10, "circle")
+lightyellowPalette = ToolbarItem(LIGHTYELLOW, (WINDOW_WIDTH - 110, 44), 10, "circle")
+lightgreenPalette = ToolbarItem(LIGHTGREEN, (WINDOW_WIDTH - 80, 44), 10, "circle")
+lightbluePalette = ToolbarItem(LIGHTBLUE, (WINDOW_WIDTH - 50, 44), 10, "circle")
+lightpurplePalette = ToolbarItem(LIGHTPURPLE, (WINDOW_WIDTH - 20, 44), 10, "circle")
+
+brushButton = ToolbarItem((150, 150, 150), (10, 10), (40, 40), "rect")
+eraserButton = ToolbarItem((150, 150, 150), (60, 10), (40, 40), "rect")
 
 
 def drawToolbar():
     pygame.draw.rect(SCREEN, (175, 175, 175), [0, 0, WINDOW_WIDTH, 60])
 
     for i in toolbarItems:
-        pygame.draw.circle(SCREEN, i.color, i.origin, i.size)
-        pygame.draw.circle(SCREEN, i.outlineColor, i.origin, i.size + 2, 2)
+        if i.type == "circle":
+            pygame.draw.circle(SCREEN, i.color, i.origin, i.size)
+            pygame.draw.circle(SCREEN, i.outlineColor, i.origin, i.size + 2, 2)
+        elif i.type == "rect":
+            pygame.draw.rect(SCREEN, i.color, [i.origin[0], i.origin[1], i.size[0], i.size[1]], 0, 4)
+            pygame.draw.rect(SCREEN, i.outlineColor, [i.origin[0], i.origin[1], i.size[0], i.size[1]], 2, 4)
 
 
 color = BLACK
+storeColor = BLACK
 blackPalette.isChosen = True
+brushButton.isChosen = True
 radius = 10
 
 running = True
@@ -136,7 +159,14 @@ while running:
     for i in toolbarItems:
         i.check()
         if i.isChosen:
-            color = i.color
+            if i.type == "circle":
+                color = i.color
+            elif i.type == "rect":
+                if i == brushButton:
+                    color = storeColor
+                elif i == eraserButton:
+                    storeColor = color
+                    color = WHITE
 
     drawCanvas()
     drawCursor()
