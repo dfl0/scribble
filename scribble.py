@@ -121,6 +121,13 @@ def drawToolbar():
             pygame.draw.rect(SCREEN, i.color, [i.origin[0], i.origin[1], i.size[0], i.size[1]], 0, 4)
             pygame.draw.rect(SCREEN, i.outlineColor, [i.origin[0], i.origin[1], i.size[0], i.size[1]], 2, 4)
 
+    pygame.draw.circle(SCREEN, BLACK, (30, 30), 12)
+
+    pygame.draw.rect(SCREEN, WHITE, [72, 17, 16, 8], 0, 0, 3, 3)
+    pygame.draw.rect(SCREEN, BLACK, [72, 17, 16, 8], 1, 0, 3, 3)
+    pygame.draw.rect(SCREEN, LIGHTBLUE, [71, 24, 18, 20])
+    pygame.draw.rect(SCREEN, BLACK, [71, 24, 18, 20], 1)
+
 
 color = BLACK
 storeColor = BLACK
