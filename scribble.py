@@ -60,7 +60,7 @@ class ToolbarItem:
                 and MOUSE_PRESSED[0]
             ):
                 for i in toolbarItems:
-                    if i != self and i.type == self.type and i.isChosen == True:
+                    if i != self and i.type == self.type and i.isChosen is True:
                         i.isChosen = False
                 self.isChosen = True
         elif self.type == "rect":
@@ -72,7 +72,7 @@ class ToolbarItem:
                 and MOUSE_PRESSED[0]
             ):
                 for i in toolbarItems:
-                    if i != self and i.type == self.type and i.isChosen == True:
+                    if i != self and i.type == self.type and i.isChosen is True:
                         i.isChosen = False
                 self.isChosen = True
 
