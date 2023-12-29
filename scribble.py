@@ -170,12 +170,17 @@ while running:
         if i.isChosen:
             if i.type == "circle":
                 color = i.color
+                storeColor = color
+                # print("[1] color set to " + str(color[0]) + ", " + str(color[1]) + ", " + str(color[2]))
             elif i.type == "rect":
                 if i == brushButton:
                     color = storeColor
+                    # print("[2] color set to " + str(color[0]) + ", " + str(color[1]) + ", " + str(color[2]))
                 elif i == eraserButton:
                     storeColor = color
+                    # print("[3] storeColor set to " + str(storeColor[0]) + ", " + str(storeColor[1]) + ", " + str(storeColor[2]))
                     color = WHITE
+                    # print("[4] color set to " + str(color[0]) + ", " + str(color[1]) + ", " + str(color[2]))
 
     drawCanvas()
     drawCursor()
